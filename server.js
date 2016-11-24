@@ -15,8 +15,11 @@ app.use(devMiddleware(compiler, {
 
 app.use(hotMiddleware(compiler));
 
-app.get('*', function (req, res) {
+app.get('/src', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
+});
+app.get('/item.json', function (req, res) {
+  res.sendFile(path.join(__dirname, 'item.json'));
 });
 
 app.listen(9800, function (err) {

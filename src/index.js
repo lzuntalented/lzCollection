@@ -2,13 +2,14 @@ import { AppContainer } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import route from './Router'; //路由配置
+
 import './css/index.scss';
 
 const rootEl = document.getElementById('root');
 ReactDOM.render(
   <AppContainer>
-    <App />
-    
+        {route}
   </AppContainer>,
   rootEl
 );

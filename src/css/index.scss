@@ -1,22 +1,79 @@
-html,body{
+@import "color";
+html{
+  font-size: 62.5%
+}
+html,body,ul,li{
     margin: 0 0;
     padding: 0 0;
 }
 body{
     background: #cacaca;
-    div{
-        background: green;
-    }
 }
-.nav-container{
-    height: 50px;
-    line-height: 50px;
-    span{
-        padding: 5px 10px;
-        cursor: pointer;
-        background: #00b7ee;
-        border-radius: 5px;
-        margin-right: 10px;
-        color: white;
-    }
+ul,li{
+  list-style: none;
+}
+
+.color-909090{
+  color: #909090 !important;
+}
+
+a{
+  text-decoration: none;
+}
+
+.main-container{
+   max-width: 640px;
+   margin: 0 auto;
+   .nav-container{
+       height: 50px;
+       line-height: 50px;
+       background: #ffffff;
+       padding: 0px 10px;
+       border-bottom-left-radius: 5px;
+       border-bottom-right-radius: 5px;
+       span{
+           padding: 5px 10px;
+           cursor: pointer;
+           background: white;
+           border-radius: 5px;
+           margin-right: 10px;
+           color: $mainColor;
+           border: 1px solid #cacaca;
+       }
+       .active{
+         border-color: $mainColor;
+         background: $mainColor;
+         color: white;
+       }
+   }
+
+   .content-container{
+     border: 1px solid #cacaca;
+     border-radius: 5px;
+     background: #ffffff;
+     margin-top: 20px;
+     padding: 20px 10px;
+     .item-container{
+       li{
+         padding: 10px;
+         margin-bottom: 10px;
+         min-height: 80px;
+         border-bottom: 1px solid #ebebeb;
+        img{
+          position: absolute;
+          width: 80px;
+          height: 80px;
+        }
+        .content{
+          margin-left: 90px;
+          padding-top: 10px;
+          .title{
+            color: #333;
+            font-weight: bold;
+            font-size: 1.8rem;
+          }
+        }
+       }
+     }
+   }
 }
