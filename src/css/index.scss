@@ -1,0 +1,22 @@
+html,body{
+    margin: 0 0;
+    padding: 0 0;
+}
+body{
+    background: #cacaca;
+    div{
+        background: green;
+    }
+}
+.nav-container{
+    height: 50px;
+    line-height: 50px;
+    span{
+        padding: 5px 10px;
+        cursor: pointer;
+        background: #00b7ee;
+        border-radius: 5px;
+        margin-right: 10px;
+        color: white;
+    }
+}
