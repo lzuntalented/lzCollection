@@ -6,6 +6,7 @@ import route from './Router'; //路由配置
 
 import './css/index.scss';
 
+
 const rootEl = document.getElementById('root');
 ReactDOM.render(
   <AppContainer>
