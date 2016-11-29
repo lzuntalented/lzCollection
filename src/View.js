@@ -30,7 +30,7 @@ export default class View extends Component {
   render() {
     return (
       <div className="main-container">
-	      <Navlabel>
+	      <Navlabel date-type="nav">
 	        <span className="active">掘金</span>
 	        <span>简书</span>
 	        <span>开发者头条</span>
