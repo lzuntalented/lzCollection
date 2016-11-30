@@ -29,6 +29,40 @@ env(xml, function(errors, window) {
 	});
 });
 
+/**
+ * 解析开发者头条中我的喜欢
+ * @param {Object} $
+ */
+function prase_kaifazhe($){
+	var result = [];
+	$('.container .post').each(function() {
+
+		var url = $(this).find(".user-avatar a").attr("href");
+		var dom = $(this).find(".title a");
+		var title = dom.text();
+		var link = dom.attr("href");
+
+		var labels = [];
+
+		if(link.indexOf("http") !== 0) {
+			link = "https://toutiao.io" + link;
+		}
+		
+		if(url.indexOf("http") !== 0) {
+			url = "https://toutiao.io" + url;
+		}
+
+		result.push({
+			"url": url,
+			"title": title,
+			"link": link,
+			"labels": labels
+		});
+	});
+
+	return result;
+}
+
 
 /**
  * 解析简书中我的喜欢
