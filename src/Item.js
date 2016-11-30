@@ -13,7 +13,7 @@ export default class Item extends Component {
     };
 
     let self = this;
-    AjaxRequest.get("item.json",function(obj){
+    AjaxRequest.get("sort/0",function(obj){
       self.setState({
         "list": obj
       });
@@ -30,9 +30,9 @@ export default class Item extends Component {
           clientHeight =$("body").get(0).scrollHeight,//内容高度
           scrollTop =$(this).scrollTop();//滚动高度
           let offset = clientHeight - offsetHeight;
-          console.log(offsetHeight,clientHeight,scrollTop);
+
          if(scrollTop + offsetHeight >= clientHeight ){ //到达底部100px时,加载新内容
-          AjaxRequest.get("item.json",function(obj){
+          AjaxRequest.get("sort/0",function(obj){
             self.state.list
             for(var i in obj){
               self.state.list.push(obj[i]);
@@ -56,19 +56,20 @@ export default class Item extends Component {
         <ul className="item-container">
             {
               list.map(function(item){
+                let item_key = arguments[1];
                 return (
-                  <li key={item.id}>
-                    <img src="" />
+                  <li key={item_key}>
+                    <img src={item.url} />
                     <div className="content">
-                      <Link to={"/View:" + item.id}>
+                      <Link to={"/View:" + item_key}>
                       <div className="title">
-                        {item.name}
+                        {item.title}
                       </div>
                       </Link>
                       <Navlabel>
                         {
 
-                          item.lables.map((child) => {
+                          item.labels.map((child) => {
                             return <span className="color-909090">{child}</span>
                           })
                         }

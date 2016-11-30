@@ -4,6 +4,7 @@ import Counter from './Counter';
 import Navlabel from './Navlabel';
 import Item from "./Item";
 import { Router, Route, Redirect, IndexRoute, browserHistory, hashHistory } from 'react-router';
+import AjaxRequest from "./AjaxRequest";
 // If you use React Router, make this component
 // render <Router> with your routes. Currently,
 // only synchronous routes are hot reloaded, and
@@ -17,26 +18,47 @@ export default class View extends Component {
   constructor(){
     super();
     this.state = {
-      user: 0
+      user: 0,
+      "list": []
     }
+
+    let self = this;
+    AjaxRequest.get("sort/0",function(obj){
+      self.state["list"] = obj;
+      self.setState(self.state);
+    });
   }
+
   componentDidMount() {
-    this.setState({
-      // route components are rendered with useful information, like URL params
-      user: this.props.params.id
-    })
+    if(typeof this.state !== "undefined"){
+        this.state["user"] = this.props.params.id.substr(1);
+    }else{
+      this.state = {
+        user: 0,
+        "list": []
+      }
+    }
+
+    this.setState(this.state);
   }
 
   render() {
+    var link = "";
+    if(typeof this.state.list[this.state.user] !== "undefined"){
+        link = this.state.list[this.state.user]["link"];
+    }
+
+    var height = window.innerHeight - 112;
     return (
       <div className="main-container">
-	      <Navlabel>
+	      <Navlabel date-type="nav">
 	        <span className="active">掘金</span>
 	        <span>简书</span>
 	        <span>开发者头条</span>
 	      </Navlabel>
         <div className="content-container">
-          我是姿势图{this.state.user}
+          <iframe src={link} width="100%" height={height} frameBorder="0" style={{borderWidth:"0px"}}>
+          </iframe>
         </div>
       </div>
     );
