@@ -9,17 +9,12 @@ export default class Item extends Component {
   constructor() {
     super();
     this.state = {
-      "list": []
+      "list": [],
     };
 
-    let self = this;
-    AjaxRequest.get("sort/0",function(obj){
-      self.setState({
-        "list": obj
-      });
-    });
 
-    this.addScroll();
+
+    // this.addScroll();
   }
 
   addScroll(){
@@ -51,26 +46,40 @@ export default class Item extends Component {
   }
 
   render(){
+    let self = this;
+
+    if(typeof this.state.sortId !== "undefined" && this.state.sortId == this.props.dataId){
+
+    }else{
+      AjaxRequest.get("sort/" + this.props.dataId,function(obj){
+        self.state.list = obj;
+        self.setState(self.state);
+      });
+      this.state.sortId = this.props.dataId;
+    }
+
+
     let list = this.state.list;
     return (
         <ul className="item-container">
             {
               list.map(function(item){
                 let item_key = arguments[1];
+                let label_key = 0;
                 return (
                   <li key={item_key}>
                     <img src={item.url} />
                     <div className="content">
-                      <Link to={"/View:" + item_key}>
+                      <Link to={"/View:" + item_key + "/:" + (self.state.sortId || "0")}>
                       <div className="title">
                         {item.title}
                       </div>
                       </Link>
                       <Navlabel>
                         {
-
                           item.labels.map((child) => {
-                            return <span className="color-909090">{child}</span>
+                            let item_key1 = item_key + label_key++ ;
+                            return <span key={item_key1} className="color-909090">{child}</span>
                           })
                         }
                       </Navlabel>

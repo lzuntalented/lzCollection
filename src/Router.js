@@ -5,9 +5,9 @@ import View from './View';
 const RouteConfig = (
     <Router history={hashHistory}>
         <Route path="/" component={App}>
-          <Route path="index" component={App}></Route>
+          <Route path="index:id" component={App}></Route>
         </Route>
-        <Route path="/view:id" component={View}></Route>
+        <Route path="/view:id/:url" component={View}></Route>
     </Router>
 );
 

@@ -16,7 +16,7 @@ app.all('*', function(req, res, next) {
 app.get('/sort/:id', function (req, res) {
   res.set
   var id = req.params.id;
-  var files = ["juejin","jianshu"];
+  var files = ["juejin","jianshu","kaifazhe"];
   // res.header("Content-type",'text/json');
   res.sendFile(path.join(__dirname, files[id] + ".json"));
 });
