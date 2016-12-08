@@ -28,8 +28,9 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+
     if(typeof this.state !== "undefined" && this.props.params.id !== "undefined"){
-        this.state["active"] = this.props.params.id && this.props.params.id.substr(1);
+        this.props.params.id && (this.state["active"] =  this.props.params.id.substr(1));
     }else{
       this.state = {
         active : 0

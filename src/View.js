@@ -33,15 +33,19 @@ export default class View extends Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount");
+    // console.log(this.refs);
+
+
     if(typeof this.state !== "undefined"){
         this.state["user"] = this.props.params.id.substr(1);
         this.state["active"] = this.props.params.url.substr(1);
 
         let self = this;
         AjaxRequest.get("sort/" + this.state.active,function(obj){
+          // self.updateIframe();
           self.state["list"] = obj;
           self.setState(self.state);
+          self.updateIframe();
         });
 
     }else{
@@ -52,7 +56,26 @@ export default class View extends Component {
       }
     }
 
+    this.updateIframe();
     this.setState(this.state);
+  }
+
+  updateIframe(){
+    //iframe被禁止跨域的处理
+    var link = "";
+    var iframe = this.refs.iframe;
+    if(typeof this.state.list[this.state.user] !== "undefined"){
+        link = this.state.list[this.state.user]["link"];
+        iframe.src = link;
+    }else{
+      iframe.contentWindow.document.write("");
+      iframe.contentWindow.document.write("<a href='"+ link +"' target='_blank' style='text-align:center;width:100%'>link</a>");
+    }
+    this.setState(this.state);
+  }
+
+  handleLoad(){
+    // this.updateIframe();
   }
 
   render() {
@@ -76,7 +99,7 @@ export default class View extends Component {
           </Link>
 	      </Navlabel>
         <div className="content-container">
-          <iframe src={link} width="100%" height={height} frameBorder="0" style={{borderWidth:"0px"}}>
+          <iframe onLoad={this.handleLoad.bind(this)} ref="iframe" src="about:blank" width="100%" height={height} frameBorder="0" style={{borderWidth:"0px"}}>
           </iframe>
         </div>
       </div>

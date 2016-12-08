@@ -51,10 +51,12 @@ export default class Item extends Component {
     if(typeof this.state.sortId !== "undefined" && this.state.sortId == this.props.dataId){
 
     }else{
-      AjaxRequest.get("sort/" + this.props.dataId,function(obj){
-        self.state.list = obj;
-        self.setState(self.state);
-      });
+      if(typeof this.props.dataId != "undefined"){
+        AjaxRequest.get("sort/" + this.props.dataId,function(obj){
+          self.state.list = obj;
+          self.setState(self.state);
+        });
+      }
       this.state.sortId = this.props.dataId;
     }
 

@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-var url_prefix = "http://localhost:9900/";
+var url_prefix = "http://192.168.0.12:9900/";
 
 export default {
   post: function(url,param,callback){
