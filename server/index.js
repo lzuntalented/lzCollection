@@ -6,11 +6,12 @@ if(arguments.toString() == ""){
 var prefix_filename = arguments[0];
 
 var fs = require("fs");
-
+var http = require("http");
+var https = require("https");
 var xml = fs.readFileSync(prefix_filename + ".html", "utf-8");
 
 var env = require('jsdom').env;
-
+		
 // first argument can be html string, filename, or url
 env(xml, function(errors, window) {
 
@@ -37,7 +38,7 @@ function prase_kaifazhe($){
 	var result = [];
 	$('.container .post').each(function() {
 
-		var url = $(this).find(".user-avatar a").attr("href");
+		var url = $(this).find(".user-avatar a img").attr("src");
 		var dom = $(this).find(".title a");
 		var title = dom.text();
 		var link = dom.attr("href");
@@ -51,12 +52,15 @@ function prase_kaifazhe($){
 		if(url.indexOf("http") !== 0) {
 			url = "https://toutiao.io" + url;
 		}
+		
+		var in_frame = check_in_iframe(link) == "" ? 1 : 0;
 
 		result.push({
 			"url": url,
 			"title": title,
 			"link": link,
-			"labels": labels
+			"labels": labels,
+			"in_iframe": in_frame
 		});
 	});
 
@@ -82,12 +86,15 @@ function prase_jianshu($){
 		if(link.indexOf("http") !== 0) {
 			link = "http://www.jianshu.com" + link;
 		}
-
+		
+		var in_frame = check_in_iframe(link) == "" ? 1 : 0;
+		
 		result.push({
 			"url": url,
 			"title": title,
 			"link": link,
-			"labels": labels
+			"labels": labels,
+			"in_iframe": in_frame
 		});
 	});
 
@@ -118,13 +125,44 @@ function prase_juejin($){
 			url = "http://gold.xitu.io" + url;
 		}
 
+		var in_frame = check_in_iframe(link) == "" ? 1 : 0;
 		result.push({
 			"url": url,
 			"title": title,
 			"link": link,
-			"labels": labels
+			"labels": labels,
+			"in_iframe": in_frame
 		});
 	});
 
 	return result;
+}
+
+var tmp_check_in_iframe = {};
+var request = require('sync-request');
+
+function check_in_iframe($url){
+	var domain = $url.replace(/^(http|https):\/\/([^\/]*).*/,"$2");
+	var protol = $url.replace(/^(http|https):\/\/([^\/]*).*/,"$1");
+	if(typeof tmp_check_in_iframe[domain] !== "undefined"){
+		return tmp_check_in_iframe[domain];
+	}
+	
+	var options = {
+	    method: 'GET',
+	    uri: $url,
+	};
+	try{
+		var res = request('GET', $url);
+		var in_frame = "";
+		if(res && res.headers && res.headers['x-frame-options']){
+			in_frame = res.headers['x-frame-options'] || "";
+		}
+	}catch(e){
+		in_frame = "";
+	}
+	
+	tmp_check_in_iframe[domain] = in_frame;
+	return in_frame;
+	
 }
