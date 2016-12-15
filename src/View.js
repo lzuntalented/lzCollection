@@ -66,10 +66,16 @@ export default class View extends Component {
     var iframe = this.refs.iframe;
     if(typeof this.state.list[this.state.user] !== "undefined"){
         link = this.state.list[this.state.user]["link"];
-        iframe.src = link;
+        if(this.state.list[this.state.user]["in_iframe"] == 1){
+          iframe.src = link;
+        }else{
+          iframe.src = "about:black";
+          iframe.contentWindow.document.write("");
+          iframe.contentWindow.document.write("<a href='"+ link +"' target='_blank' style='text-align:center;width:100%;text-decoration:none;color:blue;'><div>由于原网站限制，点我跳转</div></a>");
+        }
+
     }else{
-      iframe.contentWindow.document.write("");
-      iframe.contentWindow.document.write("<a href='"+ link +"' target='_blank' style='text-align:center;width:100%'>link</a>");
+        iframe.src = "http://www.lzuntalented.cn/loading/";
     }
     this.setState(this.state);
   }
